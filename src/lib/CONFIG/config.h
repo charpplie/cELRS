@@ -92,6 +92,8 @@ typedef struct {
     tx_button_color_t buttonColors[2];  // FUTURE: TX RGB color / mode (sets color of TX, can be a static color or standard)
                                         // FUTURE: Model RGB color / mode (sets LED color mode on the model, but can be second TX led color too)
                                         // FUTURE: Custom button actions
+    uint16_t customFreqStart;
+    uint16_t customFreqStop;
 } tx_config_t;
 
 class TxConfig
@@ -127,6 +129,8 @@ public:
     model_config_t const &GetModelConfig(uint8_t model) const { return m_config.model_config[model]; }
     uint8_t GetPTRStartChannel() const { return m_model->ptrStartChannel; }
     uint8_t GetPTREnableChannel() const { return m_model->ptrEnableChannel; }
+    uint16_t GetCustomFreqStart() const { return m_config->customFreqStart; }
+    uint16_t GetCustomFreqStop() const { return m_config->customFreqStop; }
 
     // Setters
     void SetRate(uint8_t rate);
@@ -154,6 +158,8 @@ public:
     void SetBackpackTlmEnabled(bool enabled);
     void SetPTRStartChannel(uint8_t ptrStartChannel);
     void SetPTREnableChannel(uint8_t ptrEnableChannel);
+    void SetCustomFreqStart(uint16_t customFreqStart);
+    void SetCustomFreqStop(uint16_t customFreqStop);
 
     // State setters
     bool SetModelId(uint8_t modelId);

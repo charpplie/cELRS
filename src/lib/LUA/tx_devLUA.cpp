@@ -83,6 +83,35 @@ static struct luaItem_string luaCELimit = {
 };
 #endif
 
+static struct luaItem_folder luaCustomFreqFolder = {
+  {"CFreq", CRSF_FOLDER}
+};
+
+static struct luaItem_int16 luaCustomFreqStart = {
+  {"CFQ_Start", CRSF_UINT16},
+  {
+    {
+      0,
+      1,
+      32767, //int16_max
+    }
+  },
+  STR_EMPTYSPACE
+};
+
+static struct luaItem_int16 luaCustomFreqStop = {
+  {"CFQ_Stop", CRSF_UINT16},
+  {
+    {
+      0,
+      1,
+      32767, //int16_max
+    }
+  },
+  STR_EMPTYSPACE
+};
+
+
 //----------------------------POWER------------------
 
 static struct luaItem_selection luaSwitch = {
@@ -564,7 +593,7 @@ uint8_t adjustSwitchModeForAirRate(OtaSwitchMode_e eSwitchMode, uint8_t packetSi
   return eSwitchMode;
 }
 
-static void registerLuaParameters()
+static void registerLuaParameters() 
 {
   if (HAS_RADIO) {
     registerLUAParameter(&luaAirRate, [](struct luaPropertiesCommon *item, uint8_t arg) {
@@ -690,6 +719,15 @@ static void registerLuaParameters()
     registerLUAParameter(&luaVtxSend, &luahandSimpleSendCmd, luaVtxFolder.common.id);
   }
 
+  registerLUAParameter(&luaCustomFreqFolder);
+  registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint16_t arg) {
+    config.setCustomFreqStart(arg);
+  }, &luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint16_t arg) {
+    config.setCustomFreqStop(arg);
+  }, &luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqStart, &luaCustomFreqStop, luaCustomFreqFolder.common.id);
+
   // WIFI folder
   #if defined(PLATFORM_ESP32) || defined(PLATFORM_ESP8266)
   registerLUAParameter(&luaWiFiFolder);
@@ -785,6 +823,9 @@ static int event()
 #if defined(RADIO_LR1121) // Janky fix to order menu correctly
   currentRate = (currentRate + 4) % RATE_MAX;
 #endif
+
+  setLuaTextSelectionValue(&luaCustomFreqStart, config.getCustomFreqStart());
+  setLuaTextSelectionValue(&luaCustomFreqStop, config.getCustomFreqStop());
   setLuaTextSelectionValue(&luaAirRate, RATE_MAX - 1 - currentRate);
   setLuaTextSelectionValue(&luaTlmRate, config.GetTlm());
   setLuaTextSelectionValue(&luaSwitch, config.GetSwitchMode());

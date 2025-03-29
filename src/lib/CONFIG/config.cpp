@@ -144,6 +144,14 @@ void TxConfig::Load()
         m_config.vtxPitmode = value;
     }
 
+    if (nvs_get_u16(handle, "customFreqStart", &value) == ESP_OK) {
+        m_config.customFreqStart = value;
+    }
+
+    if (nvs_get_u16(handle, "customFreqStop", &value) == ESP_OK) {
+        m_config.customFreqStop = value;
+    }
+
     // fanthresh (v5)
     if (nvs_get_u8(handle, "fanthresh", &value8) == ESP_OK)
         m_config.powerFanThreshold = value8;
@@ -343,6 +351,9 @@ TxConfig::Commit()
         nvs_set_u8(handle, "dvraux", m_config.dvrAux);
         nvs_set_u8(handle, "dvrstartdelay", m_config.dvrStartDelay);
         nvs_set_u8(handle, "dvrstopdelay", m_config.dvrStopDelay);
+
+        nvs_set_u16(handle, "customFreqStart", m_config.customFreqStart);
+        nvs_set_u16(handle, "customFreqStop", m_config.customFreqStop);
     }
     if (m_modified & BUTTON_CHANGED)
     {
@@ -594,6 +605,20 @@ TxConfig::SetPTREnableChannel(uint8_t ptrEnableChannel)
         m_model->ptrEnableChannel = ptrEnableChannel;
         m_modified |= MODEL_CHANGED;
     }
+}
+
+void
+TxConfig::SetCustomFreqStart(uint16_t customFreqStart)
+{
+    m_config.customFreqStart = customFreqStart;
+    m_modified |= MAIN_CHANGED;
+}
+
+void
+TxConfig::SetCustomFreqStop(uint16_t customFreqStop)
+{
+    m_config.customFreqStop = customFreqStop;
+    m_modified |= MAIN_CHANGED;
 }
 
 void
