@@ -729,7 +729,6 @@ static void registerLuaParameters()
   registerLUAParameter(&luaCustomFreqFolder);
   registerLUAParameter(&luaCustomFreqStart, &luaParamCustomFreqStart, luaCustomFreqFolder.common.id);
   registerLUAParameter(&luaCustomFreqStop, &luaParamCustomFreqStop, luaCustomFreqFolder.common.id);
-  registerLUAParameter(&luaCustomFreqStart, &luaCustomFreqStop, luaCustomFreqFolder.common.id);
 
   // WIFI folder
   #if defined(PLATFORM_ESP32) || defined(PLATFORM_ESP8266)
