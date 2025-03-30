@@ -824,8 +824,8 @@ static int event()
   currentRate = (currentRate + 4) % RATE_MAX;
 #endif
 
-  setLuaTextSelectionValue(&luaCustomFreqStart, config.getCustomFreqStart());
-  setLuaTextSelectionValue(&luaCustomFreqStop, config.getCustomFreqStop());
+  setLuaTextSelectionValue(&luaCustomFreqStart, config.GetCustomFreqStart());
+  setLuaTextSelectionValue(&luaCustomFreqStop, config.GetCustomFreqStop());
   setLuaTextSelectionValue(&luaAirRate, RATE_MAX - 1 - currentRate);
   setLuaTextSelectionValue(&luaTlmRate, config.GetTlm());
   setLuaTextSelectionValue(&luaSwitch, config.GetSwitchMode());
