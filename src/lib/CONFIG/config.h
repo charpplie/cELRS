@@ -129,8 +129,8 @@ public:
     model_config_t const &GetModelConfig(uint8_t model) const { return m_config.model_config[model]; }
     uint8_t GetPTRStartChannel() const { return m_model->ptrStartChannel; }
     uint8_t GetPTREnableChannel() const { return m_model->ptrEnableChannel; }
-    uint16_t GetCustomFreqStart() const { return m_config->customFreqStart; }
-    uint16_t GetCustomFreqStop() const { return m_config->customFreqStop; }
+    uint16_t GetCustomFreqStart() const { return m_config.customFreqStart; }
+    uint16_t GetCustomFreqStop() const { return m_config.customFreqStop; }
 
     // Setters
     void SetRate(uint8_t rate);
