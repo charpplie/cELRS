@@ -111,6 +111,13 @@ static struct luaItem_int16 luaCustomFreqStop = {
   STR_EMPTYSPACE
 };
 
+static void luaParamCustomFreqStart(struct luaPropertiesCommon *item, uint16_t arg) {
+  config.SetCustomFreqStart(arg);
+}
+
+static void luaParamCustomFreqStop(struct luaPropertiesCommon *item, uint16_t arg) {
+  config.SetCustomFreqStop(arg);
+}
 
 //----------------------------POWER------------------
 
@@ -720,12 +727,8 @@ static void registerLuaParameters()
   }
 
   registerLUAParameter(&luaCustomFreqFolder);
-  registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint16_t arg) {
-    config.SetCustomFreqStart(arg);
-  }, luaCustomFreqFolder.common.id);
-  registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint16_t arg) {
-    config.SetCustomFreqStop(arg);
-  }, luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqStart, &luaParamCustomFreqStart, luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqStop, &luaParamCustomFreqStop, luaCustomFreqFolder.common.id);
   registerLUAParameter(&luaCustomFreqStart, &luaCustomFreqStop, luaCustomFreqFolder.common.id);
 
   // WIFI folder
