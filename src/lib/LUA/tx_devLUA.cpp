@@ -727,8 +727,8 @@ static void registerLuaParameters()
   }
 
   registerLUAParameter(&luaCustomFreqFolder);
-  registerLUAParameter(&luaCustomFreqStart, &luaParamCustomFreqStart, luaCustomFreqFolder.common.id);
-  registerLUAParameter(&luaCustomFreqStop, &luaParamCustomFreqStop, luaCustomFreqFolder.common.id);
+  registerLUAParameter16(&luaCustomFreqStart, &luaParamCustomFreqStart, luaCustomFreqFolder.common.id);
+  registerLUAParameter16(&luaCustomFreqStop, &luaParamCustomFreqStop, luaCustomFreqFolder.common.id);
 
   // WIFI folder
   #if defined(PLATFORM_ESP32) || defined(PLATFORM_ESP8266)
@@ -826,8 +826,9 @@ static int event()
   currentRate = (currentRate + 4) % RATE_MAX;
 #endif
 
-  setLuaTextSelectionValue(&luaCustomFreqStart, config.GetCustomFreqStart());
-  setLuaTextSelectionValue(&luaCustomFreqStop, config.GetCustomFreqStop());
+  setLuaUint16Value(&luaCustomFreqStart, config.GetCustomFreqStart());
+  setLuaUint16Value(&luaCustomFreqStop, config.GetCustomFreqStop());
+
   setLuaTextSelectionValue(&luaAirRate, RATE_MAX - 1 - currentRate);
   setLuaTextSelectionValue(&luaTlmRate, config.GetTlm());
   setLuaTextSelectionValue(&luaSwitch, config.GetSwitchMode());

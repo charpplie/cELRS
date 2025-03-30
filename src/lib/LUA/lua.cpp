@@ -343,6 +343,38 @@ void registerLUAParameter(void *definition, luaCallback callback, uint8_t parent
   paramCallbacks[lastLuaField] = callback;
 }
 
+void registerLUAParameter16(void *definition, luaCallback16 callback, uint8_t parent)
+{
+  if (definition == nullptr)
+  {
+    static uint8_t agentLiteFolder[4+LUA_MAX_PARAMS+2] = "HooJ";
+    static struct luaItem_folder luaAgentLite = {
+        {(const char *)agentLiteFolder, CRSF_FOLDER},
+    };
+
+    paramDefinitions[0] = (struct luaPropertiesCommon *)&luaAgentLite;
+    paramCallbacks[0] = 0;
+    uint8_t *pos = agentLiteFolder + 4;
+    for (int i=1;i<=lastLuaField;i++)
+    {
+      if (paramDefinitions[i]->parent == 0)
+      {
+        *pos++ = i;
+      }
+    }
+    *pos++ = 0xFF;
+    *pos++ = 0;
+    return;
+  }
+
+  struct luaPropertiesCommon *p = (struct luaPropertiesCommon *)definition;
+  lastLuaField++;
+  p->id = lastLuaField;
+  p->parent = parent;
+  paramDefinitions[lastLuaField] = p;
+  paramCallbacks[lastLuaField] = callback;
+}
+
 bool luaHandleUpdateParameter()
 {
   if (UpdateParamReq == false)
