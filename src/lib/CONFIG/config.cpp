@@ -134,6 +134,7 @@ void TxConfig::Load()
     SetDefaults(false);
 
     uint32_t value;
+    uint16_t value16;
     uint8_t value8;
     // vtx (v5)
     if (nvs_get_u32(handle, "vtx", &value) == ESP_OK)
@@ -144,11 +145,11 @@ void TxConfig::Load()
         m_config.vtxPitmode = value;
     }
 
-    if (nvs_get_u16(handle, "customFreqStart", &value) == ESP_OK) {
+    if (nvs_get_u16(handle, "customFreqStart", &value16) == ESP_OK) {
         m_config.customFreqStart = value;
     }
 
-    if (nvs_get_u16(handle, "customFreqStop", &value) == ESP_OK) {
+    if (nvs_get_u16(handle, "customFreqStop", &value16) == ESP_OK) {
         m_config.customFreqStop = value;
     }
 
