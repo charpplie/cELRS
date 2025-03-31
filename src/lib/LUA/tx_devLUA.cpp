@@ -83,41 +83,49 @@ static struct luaItem_string luaCELimit = {
 };
 #endif
 
+
+
 static struct luaItem_folder luaCustomFreqFolder = {
   {"CFreq", CRSF_FOLDER}
 };
 
-static struct luaItem_int16 luaCustomFreqStart = {
-  {"CFQ_Start", CRSF_UINT16},
+static struct luaItem_int8 luaCustomFreqStart = {
+  {"Start", CRSF_UINT8},
   {
     {
       0,
       1,
-      32767, //int16_max
+      255, //uint8_max
     }
   },
   STR_EMPTYSPACE
 };
 
-static struct luaItem_int16 luaCustomFreqStop = {
-  {"CFQ_Stop", CRSF_UINT16},
+static struct luaItem_int8 luaCustomFreqStop = {
+  {"Stop", CRSF_UINT8},
   {
     {
       0,
       1,
-      32767, //int16_max
+      255, //uint8_max
     }
   },
   STR_EMPTYSPACE
 };
 
-static void luaParamCustomFreqStart(struct luaPropertiesCommon *item, uint16_t arg) {
-  config.SetCustomFreqStart(arg);
-}
+static struct luaItem_int8 luaCustomFreqMultiplier = {
+  {"Multiplier", CRSF_UINT8},
+  {
+    {
+      0,
+      1,
+      255, //uint8_max
+    }
+  },
+  STR_EMPTYSPACE
+};
 
-static void luaParamCustomFreqStop(struct luaPropertiesCommon *item, uint16_t arg) {
-  config.SetCustomFreqStop(arg);
-}
+
 
 //----------------------------POWER------------------
 
@@ -727,8 +735,15 @@ static void registerLuaParameters()
   }
 
   registerLUAParameter(&luaCustomFreqFolder);
-  registerLUAParameter16(&luaCustomFreqStart, &luaParamCustomFreqStart, luaCustomFreqFolder.common.id);
-  registerLUAParameter16(&luaCustomFreqStop, &luaParamCustomFreqStop, luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint8_t arg) {
+    config.SetCustomFreqStart(arg);
+  }, luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint8_t arg) {
+    config.SetCustomFreqStop(arg);
+  }, luaCustomFreqFolder.common.id);
+  registerLUAParameter(&luaCustomFreqMultiplier, [](struct luaPropertiesCommon *item, uint8_t arg) {
+    config.SetCustomFreqMultiplier(arg);
+  }, luaCustomFreqFolder.common.id);
 
   // WIFI folder
   #if defined(PLATFORM_ESP32) || defined(PLATFORM_ESP8266)
@@ -826,8 +841,9 @@ static int event()
   currentRate = (currentRate + 4) % RATE_MAX;
 #endif
 
-  setLuaUint16Value(&luaCustomFreqStart, config.GetCustomFreqStart());
-  setLuaUint16Value(&luaCustomFreqStop, config.GetCustomFreqStop());
+  setLuaTextSelectionValue(&luaCustomFreqStart, config.GetCustomFreqStart());
+  setLuaTextSelectionValue(&luaCustomFreqStop, config.GetCustomFreqStop());
+  setLuaTextSelectionValue(&luaCustomFreqMultiplier, config.GetCustomFreqMultiplier());
 
   setLuaTextSelectionValue(&luaAirRate, RATE_MAX - 1 - currentRate);
   setLuaTextSelectionValue(&luaTlmRate, config.GetTlm());

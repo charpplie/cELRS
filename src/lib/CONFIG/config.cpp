@@ -134,7 +134,6 @@ void TxConfig::Load()
     SetDefaults(false);
 
     uint32_t value;
-    uint16_t value16;
     uint8_t value8;
     // vtx (v5)
     if (nvs_get_u32(handle, "vtx", &value) == ESP_OK)
@@ -145,12 +144,16 @@ void TxConfig::Load()
         m_config.vtxPitmode = value;
     }
 
-    if (nvs_get_u16(handle, "customFreqStart", &value16) == ESP_OK) {
+    if (nvs_get_u8(handle, "customFreqStart", &value8) == ESP_OK) {
         m_config.customFreqStart = value;
     }
 
-    if (nvs_get_u16(handle, "customFreqStop", &value16) == ESP_OK) {
+    if (nvs_get_u8(handle, "customFreqStop", &value8) == ESP_OK) {
         m_config.customFreqStop = value;
+    }
+
+    if (nvs_get_u8(handle, "customFreqMultiplier", &value8) == ESP_OK) {
+        m_config.customFreqMultiplier = value;
     }
 
     // fanthresh (v5)
@@ -353,8 +356,9 @@ TxConfig::Commit()
         nvs_set_u8(handle, "dvrstartdelay", m_config.dvrStartDelay);
         nvs_set_u8(handle, "dvrstopdelay", m_config.dvrStopDelay);
 
-        nvs_set_u16(handle, "customFreqStart", m_config.customFreqStart);
-        nvs_set_u16(handle, "customFreqStop", m_config.customFreqStop);
+        nvs_set_u8(handle, "customFreqStart", m_config.customFreqStart);
+        nvs_set_u8(handle, "customFreqStop", m_config.customFreqStop);
+        nvs_set_u8(handle, "customFreqMultiplier", m_config.customFreqMultiplier);
     }
     if (m_modified & BUTTON_CHANGED)
     {
@@ -609,16 +613,23 @@ TxConfig::SetPTREnableChannel(uint8_t ptrEnableChannel)
 }
 
 void
-TxConfig::SetCustomFreqStart(uint16_t customFreqStart)
+TxConfig::SetCustomFreqStart(uint8_t customFreqStart)
 {
     m_config.customFreqStart = customFreqStart;
     m_modified |= MAIN_CHANGED;
 }
 
 void
-TxConfig::SetCustomFreqStop(uint16_t customFreqStop)
+TxConfig::SetCustomFreqStop(uint8_t customFreqStop)
 {
     m_config.customFreqStop = customFreqStop;
+    m_modified |= MAIN_CHANGED;
+}
+
+void
+TxConfig::SetCustomFreqMultiplier(uint8_t customFreqMultiplier)
+{
+    m_config.customFreqMultiplier = customFreqMultiplier;
     m_modified |= MAIN_CHANGED;
 }
 
