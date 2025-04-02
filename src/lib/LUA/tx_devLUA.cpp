@@ -83,8 +83,6 @@ static struct luaItem_string luaCELimit = {
 };
 #endif
 
-
-
 static struct luaItem_folder luaCustomFreqFolder = {
   {"CFreq", CRSF_FOLDER}
 };
@@ -112,20 +110,6 @@ static struct luaItem_int8 luaCustomFreqStop = {
   },
   STR_EMPTYSPACE
 };
-
-static struct luaItem_int8 luaCustomFreqMultiplier = {
-  {"Multiplier", CRSF_UINT8},
-  {
-    {
-      0,
-      1,
-      255, //uint8_max
-    }
-  },
-  STR_EMPTYSPACE
-};
-
-
 
 //----------------------------POWER------------------
 
@@ -736,13 +720,18 @@ static void registerLuaParameters()
 
   registerLUAParameter(&luaCustomFreqFolder);
   registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint8_t arg) {
-    config.SetCustomFreqStart(arg);
+    if (arg == 255) {
+      config.SetCfqStartHigh(config.GetCfqStartHigh() + 1);
+    } else {
+      config.SetCfqStartLow(arg);
+    }
   }, luaCustomFreqFolder.common.id);
   registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint8_t arg) {
-    config.SetCustomFreqStop(arg);
-  }, luaCustomFreqFolder.common.id);
-  registerLUAParameter(&luaCustomFreqMultiplier, [](struct luaPropertiesCommon *item, uint8_t arg) {
-    config.SetCustomFreqMultiplier(arg);
+    if (arg == 255) {
+      config.SetCfqStopHigh(config.GetCfqStopHigh() + 1);
+    } else {
+      config.SetCfqStopLow(arg);
+    }
   }, luaCustomFreqFolder.common.id);
 
   // WIFI folder
@@ -841,9 +830,8 @@ static int event()
   currentRate = (currentRate + 4) % RATE_MAX;
 #endif
 
-  setLuaUint8Value(&luaCustomFreqStart, config.GetCustomFreqStart());
-  setLuaUint8Value(&luaCustomFreqStop, config.GetCustomFreqStop());
-  setLuaUint8Value(&luaCustomFreqMultiplier, config.GetCustomFreqMultiplier());
+  setLuaUint16Value(&luaCustomFreqStart, ((config.GetCfqStartHigh() << 8) | config.GetCfqStartLow()));
+  setLuaUint16Value(&luaCustomFreqStop, ((config.GetCfqStopHigh() << 8) | config.GetCfqStopLow()));
 
   setLuaTextSelectionValue(&luaAirRate, RATE_MAX - 1 - currentRate);
   setLuaTextSelectionValue(&luaTlmRate, config.GetTlm());

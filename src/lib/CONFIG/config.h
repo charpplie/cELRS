@@ -92,9 +92,10 @@ typedef struct {
     tx_button_color_t buttonColors[2];  // FUTURE: TX RGB color / mode (sets color of TX, can be a static color or standard)
                                         // FUTURE: Model RGB color / mode (sets LED color mode on the model, but can be second TX led color too)
                                         // FUTURE: Custom button actions
-    uint8_t customFreqStart;
-    uint8_t customFreqStop;
-    uint8_t customFreqMultiplier;
+    uint8_t cfqStartHigh;
+    uint8_t cfqStartLow;
+    uint8_t cfqStopHigh;
+    uint8_t cfqStopLow;
 } tx_config_t;
 
 class TxConfig
@@ -130,9 +131,11 @@ public:
     model_config_t const &GetModelConfig(uint8_t model) const { return m_config.model_config[model]; }
     uint8_t GetPTRStartChannel() const { return m_model->ptrStartChannel; }
     uint8_t GetPTREnableChannel() const { return m_model->ptrEnableChannel; }
-    uint8_t GetCustomFreqStart() const { return m_config.customFreqStart; }
-    uint8_t GetCustomFreqStop() const { return m_config.customFreqStop; }
-    uint8_t GetCustomFreqMultiplier() const { return m_config.customFreqMultiplier; }
+
+    uint8_t GetCfqStartHigh() const { return m_config.cfqStartHigh; }
+    uint8_t GetCfqStartLow() const { return m_config.cfqStartLow; }
+    uint8_t GetCfqStopHigh() const { return m_config.cfqStopHigh; }
+    uint8_t GetCfqStopLow() const { return m_config.cfqStopLow; }
 
     // Setters
     void SetRate(uint8_t rate);
@@ -160,9 +163,10 @@ public:
     void SetBackpackTlmEnabled(bool enabled);
     void SetPTRStartChannel(uint8_t ptrStartChannel);
     void SetPTREnableChannel(uint8_t ptrEnableChannel);
-    void SetCustomFreqStart(uint8_t customFreqStart);
-    void SetCustomFreqStop(uint8_t customFreqStop);
-    void SetCustomFreqMultiplier(uint8_t customFreqMultiplier);
+    void SetCfqStartHigh (uint8_t cfqStartHigh);
+    void SetCfqStartLow (uint8_t cfqStartLow);
+    void SetCfqStopHigh (uint8_t cfqStopHigh);
+    void SetCfqStopLow (uint8_t cfqStopLow);
 
     // State setters
     bool SetModelId(uint8_t modelId);

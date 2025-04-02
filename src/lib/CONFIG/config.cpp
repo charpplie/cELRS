@@ -613,23 +613,26 @@ TxConfig::SetPTREnableChannel(uint8_t ptrEnableChannel)
 }
 
 void
-TxConfig::SetCustomFreqStart(uint8_t customFreqStart)
-{
-    m_config.customFreqStart = customFreqStart;
+TxConfig::SetCfqStartHigh(uint8_t cfqStartHigh) {
+    m_config.cfqStartHigh = cfqStartHigh;
     m_modified |= MAIN_CHANGED;
 }
 
 void
-TxConfig::SetCustomFreqStop(uint8_t customFreqStop)
-{
-    m_config.customFreqStop = customFreqStop;
+TxConfig::SetCfqStartLow(uint8_t cfqStartLow) {
+    m_config.cfqStartLow = cfqStartLow;
     m_modified |= MAIN_CHANGED;
 }
 
 void
-TxConfig::SetCustomFreqMultiplier(uint8_t customFreqMultiplier)
-{
-    m_config.customFreqMultiplier = customFreqMultiplier;
+TxConfig::SetCfqStopHigh(uint8_t cfqStopHigh) {
+    m_config.cfqStopHigh = cfqStopHigh;
+    m_modified |= MAIN_CHANGED;
+}
+
+void
+TxConfig::SetCfqStopLow(uint8_t cfqStopLow) {
+    m_config.cfqStopLow = cfqStopLow;
     m_modified |= MAIN_CHANGED;
 }
 
