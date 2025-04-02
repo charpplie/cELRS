@@ -144,16 +144,20 @@ void TxConfig::Load()
         m_config.vtxPitmode = value;
     }
 
-    if (nvs_get_u8(handle, "customFreqStart", &value8) == ESP_OK) {
-        m_config.customFreqStart = value;
+    if (nvs_get_u8(handle, "cfqStartHigh", &value8) == ESP_OK) {
+        m_config.cfqStartHigh = value;
     }
 
-    if (nvs_get_u8(handle, "customFreqStop", &value8) == ESP_OK) {
-        m_config.customFreqStop = value;
+    if (nvs_get_u8(handle, "cfqStartLow", &value8) == ESP_OK) {
+        m_config.cfqStartLow = value;
     }
 
-    if (nvs_get_u8(handle, "customFreqMultiplier", &value8) == ESP_OK) {
-        m_config.customFreqMultiplier = value;
+    if (nvs_get_u8(handle, "cfqStopHigh", &value8) == ESP_OK) {
+        m_config.cfqStopHigh = value;
+    }
+
+    if (nvs_get_u8(handle, "cfqStopLow", &value8) == ESP_OK) {
+        m_config.cfqStopLow = value;
     }
 
     // fanthresh (v5)
@@ -295,6 +299,10 @@ void TxConfig::UpgradeEepromV6ToV7()
     LAZY(dvrAux);
     LAZY(dvrStartDelay);
     LAZY(dvrStopDelay);
+    LAZY(cfqStartHigh);
+    LAZY(cfqStopHigh);
+    LAZY(cfqStopHigh);
+    LAZY(cfqStopLow);
     #undef LAZY
 
     for (unsigned i=0; i<CONFIG_TX_MODEL_CNT; i++)
@@ -356,9 +364,10 @@ TxConfig::Commit()
         nvs_set_u8(handle, "dvrstartdelay", m_config.dvrStartDelay);
         nvs_set_u8(handle, "dvrstopdelay", m_config.dvrStopDelay);
 
-        nvs_set_u8(handle, "customFreqStart", m_config.customFreqStart);
-        nvs_set_u8(handle, "customFreqStop", m_config.customFreqStop);
-        nvs_set_u8(handle, "customFreqMultiplier", m_config.customFreqMultiplier);
+        nvs_set_u8(handle, "cfqStartHigh", m_config.cfqStartHigh);
+        nvs_set_u8(handle, "cfqStartLow", m_config.cfqStartLow);
+        nvs_set_u8(handle, "cfqStopHigh", m_config.cfqStopHigh);
+        nvs_set_u8(handle, "cfqStopLow", m_config.cfqStopLow);
     }
     if (m_modified & BUTTON_CHANGED)
     {
