@@ -87,25 +87,25 @@ static struct luaItem_folder luaCustomFreqFolder = {
   {"CFreq", CRSF_FOLDER}
 };
 
-static struct luaItem_int8 luaCustomFreqStart = {
-  {"Start", CRSF_UINT8},
+static struct luaItem_int16 luaCustomFreqStart = {
+  {"Start", CRSF_UINT16},
   {
     {
       0,
       1,
-      255, //uint8_max
+      65535,
     }
   },
   STR_EMPTYSPACE
 };
 
-static struct luaItem_int8 luaCustomFreqStop = {
-  {"Stop", CRSF_UINT8},
+static struct luaItem_int16 luaCustomFreqStop = {
+  {"Stop", CRSF_UINT16},
   {
     {
       0,
       1,
-      255, //uint8_max
+      65535,
     }
   },
   STR_EMPTYSPACE
