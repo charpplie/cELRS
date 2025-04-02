@@ -722,6 +722,7 @@ static void registerLuaParameters()
   registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint8_t arg) {
     if (arg == 255) {
       config.SetCfqStartHigh(config.GetCfqStartHigh() + 1);
+      config.SetCfqStartLow(0);
     } else {
       config.SetCfqStartLow(arg);
     }
@@ -729,6 +730,7 @@ static void registerLuaParameters()
   registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint8_t arg) {
     if (arg == 255) {
       config.SetCfqStopHigh(config.GetCfqStopHigh() + 1);
+      config.SetCfqStopLow(0);
     } else {
       config.SetCfqStopLow(arg);
     }
