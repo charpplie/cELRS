@@ -300,7 +300,7 @@ void TxConfig::UpgradeEepromV6ToV7()
     LAZY(dvrStartDelay);
     LAZY(dvrStopDelay);
     LAZY(cfqStartHigh);
-    LAZY(cfqStopHigh);
+    LAZY(cfqStartLow);
     LAZY(cfqStopHigh);
     LAZY(cfqStopLow);
     #undef LAZY
