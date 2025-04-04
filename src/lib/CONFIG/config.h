@@ -160,8 +160,8 @@ public:
     void SetPTRStartChannel(uint8_t ptrStartChannel);
     void SetPTREnableChannel(uint8_t ptrEnableChannel);
 
-    void SetCfqStart() (uint16_t cfqStart);
-    void SetCfqStop() (uint16_t cfqStop);
+    void SetCfqStart(uint16_t cfqStart);
+    void SetCfqStop(uint16_t cfqStop);
 
     // State setters
     bool SetModelId(uint8_t modelId);
