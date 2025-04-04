@@ -134,6 +134,7 @@ void TxConfig::Load()
     SetDefaults(false);
 
     uint32_t value;
+    uint16_t value16;
     uint8_t value8;
     // vtx (v5)
     if (nvs_get_u32(handle, "vtx", &value) == ESP_OK)
@@ -144,20 +145,12 @@ void TxConfig::Load()
         m_config.vtxPitmode = value;
     }
 
-    if (nvs_get_u8(handle, "cfqStartHigh", &value8) == ESP_OK) {
-        m_config.cfqStartHigh = value8 ;
+    if (nvs_get_u8(handle, "cfqStart", &value16) == ESP_OK) {
+        m_config.cfqStart = value16;
     }
 
-    if (nvs_get_u8(handle, "cfqStartLow", &value8) == ESP_OK) {
-        m_config.cfqStartLow = value8;
-    }
-
-    if (nvs_get_u8(handle, "cfqStopHigh", &value8) == ESP_OK) {
-        m_config.cfqStopHigh = value8;
-    }
-
-    if (nvs_get_u8(handle, "cfqStopLow", &value8) == ESP_OK) {
-        m_config.cfqStopLow = value8;
+    if (nvs_get_u8(handle, "cfqStop", &value16) == ESP_OK) {
+        m_config.cfqStop = value16;
     }
 
     // fanthresh (v5)
@@ -299,10 +292,8 @@ void TxConfig::UpgradeEepromV6ToV7()
     LAZY(dvrAux);
     LAZY(dvrStartDelay);
     LAZY(dvrStopDelay);
-    LAZY(cfqStartHigh);
-    LAZY(cfqStartLow);
-    LAZY(cfqStopHigh);
-    LAZY(cfqStopLow);
+    LAZY(cfqStart);
+    LAZY(cfqStop);
     #undef LAZY
 
     for (unsigned i=0; i<CONFIG_TX_MODEL_CNT; i++)
@@ -364,10 +355,8 @@ TxConfig::Commit()
         nvs_set_u8(handle, "dvrstartdelay", m_config.dvrStartDelay);
         nvs_set_u8(handle, "dvrstopdelay", m_config.dvrStopDelay);
 
-        nvs_set_u8(handle, "cfqStartHigh", m_config.cfqStartHigh);
-        nvs_set_u8(handle, "cfqStartLow", m_config.cfqStartLow);
-        nvs_set_u8(handle, "cfqStopHigh", m_config.cfqStopHigh);
-        nvs_set_u8(handle, "cfqStopLow", m_config.cfqStopLow);
+        nvs_set_u16(handle, "cfqStart", m_config.cfqStart);
+        nvs_set_u16(handle, "cfqStop", m_config.cfqStop);
     }
     if (m_modified & BUTTON_CHANGED)
     {
@@ -622,33 +611,17 @@ TxConfig::SetPTREnableChannel(uint8_t ptrEnableChannel)
 }
 
 void
-TxConfig::SetCfqStartHigh(uint8_t cfqStartHigh) {
-    if (cfqStartHigh != m_config.cfqStartHigh) {
-        m_config.cfqStartHigh = cfqStartHigh;
+TxConfig::SetCfqStart(uint16_t cfqStart) {
+    if (cfqStart != m_config.cfqStart) {
+        m_config.cfqStart = cfqStart;
         m_modified |= MAIN_CHANGED;
     }
 }
 
 void
-TxConfig::SetCfqStartLow(uint8_t cfqStartLow) {
-    if (cfqStartLow != m_config.cfqStartLow) {
-        m_config.cfqStartLow = cfqStartLow;
-        m_modified |= MAIN_CHANGED;
-    }
-}
-
-void
-TxConfig::SetCfqStopHigh(uint8_t cfqStopHigh) {
-    if (cfqStopHigh != m_config.cfqStopHigh) {
-        m_config.cfqStopHigh = cfqStopHigh;
-        m_modified |= MAIN_CHANGED;
-    }
-}
-
-void
-TxConfig::SetCfqStopLow(uint8_t cfqStopLow) {
-    if (cfqStartLow != m_config.cfqStopLow) {
-        m_config.cfqStopLow = cfqStopLow;
+TxConfig::SetCfqStop(uint16_t cfqStop) {
+    if (cfqStop != m_config.cfqStop) {
+        m_config.cfqStop = cfqStop;
         m_modified |= MAIN_CHANGED;
     }
 }

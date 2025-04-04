@@ -26,6 +26,7 @@ static volatile bool UpdateParamReq = false;
 
 static struct luaPropertiesCommon *paramDefinitions[LUA_MAX_PARAMS] = {0}; // array of luaItem_*
 static luaCallback paramCallbacks[LUA_MAX_PARAMS] = {0};
+static luaCallback16 paramCallbacks16[LUA_MAX_PARAMS] = {0};
 static uint8_t lastLuaField = 0;
 static uint8_t nextStatusChunk = 0;
 
@@ -343,6 +344,38 @@ void registerLUAParameter(void *definition, luaCallback callback, uint8_t parent
   paramCallbacks[lastLuaField] = callback;
 }
 
+void registerLUAParameter(void *definition, luaCallback16 callback, uint8_t parent)
+{
+  if (definition == nullptr)
+  {
+    static uint16_t agentLiteFolder[4+LUA_MAX_PARAMS+2] = "HooJ";
+    static struct luaItem_folder luaAgentLite = {
+        {(const char *)agentLiteFolder, CRSF_FOLDER},
+    };
+
+    paramDefinitions[0] = (struct luaPropertiesCommon *)&luaAgentLite;
+    paramCallbacks16[0] = 0;
+    uint16_t *pos = agentLiteFolder + 4;
+    for (int i=1;i<=lastLuaField;i++)
+    {
+      if (paramDefinitions[i]->parent == 0)
+      {
+        *pos++ = i;
+      }
+    }
+    *pos++ = 0xFF;
+    *pos++ = 0;
+    return;
+  }
+
+  struct luaPropertiesCommon *p = (struct luaPropertiesCommon *)definition;
+  lastLuaField++;
+  p->id = lastLuaField;
+  p->parent = parent;
+  paramDefinitions[lastLuaField] = p;
+  paramCallbacks16[lastLuaField] = callback;
+}
+
 bool luaHandleUpdateParameter()
 {
   if (UpdateParamReq == false)
@@ -368,14 +401,18 @@ bool luaHandleUpdateParameter()
         uint8_t arg = parameterArg;
         struct luaPropertiesCommon *p = paramDefinitions[id];
         DBGLN("Set Lua [%s]=%u", p->name, arg);
-        if (id < LUA_MAX_PARAMS && paramCallbacks[id]) {
+        if (id < LUA_MAX_PARAMS && (paramCallbacks[id] || paramCallbacks16[id])) {
           // While the command is executing, the handset will send `WRITE state=lcsQuery`.
           // paramCallbacks will set the value when nextStatusChunk == 0, or send any
           // remaining chunks when nextStatusChunk != 0
           if (arg == lcsQuery && nextStatusChunk != 0) {
             pushResponseChunk((struct luaItem_command *)p);
           } else {
-            paramCallbacks[id](p, arg);
+            if (paramCallbacks16[id]) {
+              paramCallbacks16[id](p, arg)
+            } else {
+              paramCallbacks[id](p, arg);
+            }
           }
         }
       }

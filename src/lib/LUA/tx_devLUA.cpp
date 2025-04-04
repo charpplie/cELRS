@@ -719,21 +719,11 @@ static void registerLuaParameters()
   }
 
   registerLUAParameter(&luaCustomFreqFolder);
-  registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint8_t arg) {
-    if (arg == 255) {
-      config.SetCfqStartHigh(config.GetCfqStartHigh() + 1);
-      config.SetCfqStartLow(0);
-    } else {
-      config.SetCfqStartLow(arg);
-    }
+  registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint16_t arg) {
+    config.SetCfqStart(arg);
   }, luaCustomFreqFolder.common.id);
-  registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint8_t arg) {
-    if (arg == 255) {
-      config.SetCfqStopHigh(config.GetCfqStopHigh() + 1);
-      config.SetCfqStopLow(0);
-    } else {
-      config.SetCfqStopLow(arg);
-    }
+  registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint16_t arg) {
+    config.SetCfqStop(arg);
   }, luaCustomFreqFolder.common.id);
 
   // WIFI folder
@@ -831,9 +821,8 @@ static int event()
 #if defined(RADIO_LR1121) // Janky fix to order menu correctly
   currentRate = (currentRate + 4) % RATE_MAX;
 #endif
-
-  setLuaUint16Value(&luaCustomFreqStart, ((config.GetCfqStartHigh() << 8) | config.GetCfqStartLow()));
-  setLuaUint16Value(&luaCustomFreqStop, ((config.GetCfqStopHigh() << 8) | config.GetCfqStopLow()));
+  setLuaUint16Value(&luaCustomFreqStart, config.GetCfqStart());
+  setLuaUint16Value(&luaCustomFreqStop, config.GetCfqStop());
 
   setLuaTextSelectionValue(&luaAirRate, RATE_MAX - 1 - currentRate);
   setLuaTextSelectionValue(&luaTlmRate, config.GetTlm());

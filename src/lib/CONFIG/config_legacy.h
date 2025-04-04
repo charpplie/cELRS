@@ -31,10 +31,8 @@ typedef struct {
     v5_model_config_t  model_config[64];
     uint8_t         fanMode;
     uint8_t         motionMode;
-    uint8_t         cfqStartHigh;
-    uint8_t         cfqStartLow;
-    uint8_t         cfqStopHigh;
-    uint8_t         cfqStopLow;
+    uint16_t        cfqStart;
+    uint16_t        cfqStop;
 } v5_tx_config_t;
 
 // V6
@@ -55,10 +53,8 @@ typedef struct {
     uint8_t         dvrAux:5;
     uint8_t         dvrStartDelay:3;
     uint8_t         dvrStopDelay:3;
-    uint8_t         cfqStartHigh;
-    uint8_t         cfqStartLow;
-    uint8_t         cfqStopHigh;
-    uint8_t         cfqStopLow;
+    uint16_t        cfqStart;
+    uint16_t        cfqStop;
 } v6_tx_config_t;
 
 /***

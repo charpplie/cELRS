@@ -92,10 +92,8 @@ typedef struct {
     tx_button_color_t buttonColors[2];  // FUTURE: TX RGB color / mode (sets color of TX, can be a static color or standard)
                                         // FUTURE: Model RGB color / mode (sets LED color mode on the model, but can be second TX led color too)
                                         // FUTURE: Custom button actions
-    uint8_t cfqStartHigh;
-    uint8_t cfqStartLow;
-    uint8_t cfqStopHigh;
-    uint8_t cfqStopLow;
+    uint16_t        cfqStart;
+    uint16_t        cfqStop;
 } tx_config_t;
 
 class TxConfig
@@ -132,10 +130,8 @@ public:
     uint8_t GetPTRStartChannel() const { return m_model->ptrStartChannel; }
     uint8_t GetPTREnableChannel() const { return m_model->ptrEnableChannel; }
 
-    uint8_t GetCfqStartHigh() const { return m_config.cfqStartHigh; }
-    uint8_t GetCfqStartLow() const { return m_config.cfqStartLow; }
-    uint8_t GetCfqStopHigh() const { return m_config.cfqStopHigh; }
-    uint8_t GetCfqStopLow() const { return m_config.cfqStopLow; }
+    uint16_t GetCfqStart() const { return m_config.cfqStart; }
+    uint16_t GetCfqStop() const { return m_config.cfqStop; }
 
     // Setters
     void SetRate(uint8_t rate);
@@ -163,11 +159,9 @@ public:
     void SetBackpackTlmEnabled(bool enabled);
     void SetPTRStartChannel(uint8_t ptrStartChannel);
     void SetPTREnableChannel(uint8_t ptrEnableChannel);
-    
-    void SetCfqStartHigh (uint8_t cfqStartHigh);
-    void SetCfqStartLow (uint8_t cfqStartLow);
-    void SetCfqStopHigh (uint8_t cfqStopHigh);
-    void SetCfqStopLow (uint8_t cfqStopLow);
+
+    void SetCfqStart() (uint16_t cfqStart);
+    void SetCfqStop() (uint16_t cfqStop);
 
     // State setters
     bool SetModelId(uint8_t modelId);
