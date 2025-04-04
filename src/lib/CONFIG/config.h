@@ -233,6 +233,10 @@ typedef struct __attribute__((packed)) {
     uint8_t     teamraceChannel:4,
                 teamracePosition:3,
                 teamracePitMode:1;  // FUTURE: Enable pit mode when disabling model
+    uint8_t cfqStartHigh;
+    uint8_t cfqStartLow;
+    uint8_t cfqStopHigh;
+    uint8_t cfqStopLow;
 } rx_config_t;
 
 class RxConfig
@@ -262,6 +266,11 @@ public:
     eFailsafeMode GetFailsafeMode() const { return (eFailsafeMode)m_config.failsafeMode; }
     bool GetVolatileBind() const { return m_config.volatileBind; }
 
+    uint8_t GetCfqStartHigh() const { return m_config.cfqStartHigh; }
+    uint8_t GetCfqStartLow() const { return m_config.cfqStartLow; }
+    uint8_t GetCfqStopHigh() const { return m_config.cfqStopHigh; }
+    uint8_t GetCfqStopLow() const { return m_config.cfqStopLow; }
+
     // Setters
     void SetUID(uint8_t* uid);
     void SetPowerOnCounter(uint8_t powerOnCounter);
@@ -281,6 +290,11 @@ public:
     void SetTeamracePosition(uint8_t teamracePosition);
     void SetFailsafeMode(eFailsafeMode failsafeMode);
     void SetVolatileBind(bool value);
+
+    void SetCfqStartHigh (uint8_t cfqStartHigh);
+    void SetCfqStartLow (uint8_t cfqStartLow);
+    void SetCfqStopHigh (uint8_t cfqStopHigh);
+    void SetCfqStopLow (uint8_t cfqStopLow);
 
 private:
     void CheckUpdateFlashedUid(bool skipDescrimCheck);
