@@ -85,10 +85,6 @@ typedef struct {
     char        ssid[33];
     char        password[33];
     v4_rx_config_pwm_t pwmChannels[8];
-    uint8_t cfqStartHigh;
-    uint8_t cfqStartLow;
-    uint8_t cfqStopHigh;
-    uint8_t cfqStopLow;
 } v4_rx_config_t;
 
 // V5
@@ -118,10 +114,6 @@ typedef struct {
                 rateInitialIdx:4;   // Rate to start rateCycling at on boot
     uint8_t     modelId;
     v5_rx_config_pwm_t pwmChannels[16];
-    uint8_t cfqStartHigh;
-    uint8_t cfqStartLow;
-    uint8_t cfqStopHigh;
-    uint8_t cfqStopLow;
 } v5_rx_config_t;
 
 // V6
@@ -151,10 +143,6 @@ typedef struct {
                 rateInitialIdx:4;   // Rate to start rateCycling at on boot
     uint8_t     modelId;
     v6_rx_config_pwm_t pwmChannels[16];
-    uint8_t cfqStartHigh;
-    uint8_t cfqStartLow;
-    uint8_t cfqStopHigh;
-    uint8_t cfqStopLow;
 } v6_rx_config_t;
 
 typedef struct {
@@ -174,10 +162,6 @@ typedef struct {
                 failsafeMode:2,
                 unused:2;
     v6_rx_config_pwm_t pwmChannels[16];
-    uint8_t cfqStartHigh;
-    uint8_t cfqStartLow;
-    uint8_t cfqStopHigh;
-    uint8_t cfqStopLow;
 } v7_rx_config_t;
 
 // V8 is just V7 except PWM config inserted 10khz PWM in the middle

@@ -145,19 +145,19 @@ void TxConfig::Load()
     }
 
     if (nvs_get_u8(handle, "cfqStartHigh", &value8) == ESP_OK) {
-        m_config.cfqStartHigh = value;
+        m_config.cfqStartHigh = value8 ;
     }
 
     if (nvs_get_u8(handle, "cfqStartLow", &value8) == ESP_OK) {
-        m_config.cfqStartLow = value;
+        m_config.cfqStartLow = value8;
     }
 
     if (nvs_get_u8(handle, "cfqStopHigh", &value8) == ESP_OK) {
-        m_config.cfqStopHigh = value;
+        m_config.cfqStopHigh = value8;
     }
 
     if (nvs_get_u8(handle, "cfqStopLow", &value8) == ESP_OK) {
-        m_config.cfqStopLow = value;
+        m_config.cfqStopLow = value8;
     }
 
     // fanthresh (v5)
@@ -865,10 +865,6 @@ void RxConfig::UpgradeEepromV5()
         m_config.forceTlmOff = v5Config.forceTlmOff;
         m_config.rateInitialIdx = v5Config.rateInitialIdx;
         m_config.modelId = v5Config.modelId;
-        m_config.cfqStartHigh = v5Config.cfqStartHigh;
-        m_config.cfqStartLow = v5Config.cfqStartLow;
-        m_config.cfqStopHigh = v5Config.cfqStopHigh;
-        m_config.cfqStopLow = v5Config.cfqStopLow;
 
         #if defined(GPIO_PIN_PWM_OUTPUTS)
         for (unsigned ch=0; ch<16; ++ch)
@@ -905,10 +901,6 @@ void RxConfig::UpgradeEepromV6()
         m_config.forceTlmOff = v6Config.forceTlmOff;
         m_config.rateInitialIdx = v6Config.rateInitialIdx;
         m_config.modelId = v6Config.modelId;
-        m_config.cfqStartHigh = v6Config.cfqStartHigh;
-        m_config.cfqStartLow = v6Config.cfqStartLow;
-        m_config.cfqStopHigh = v6Config.cfqStopHigh;
-        m_config.cfqStopLow = v6Config.cfqStopLow;
 
         #if defined(GPIO_PIN_PWM_OUTPUTS)
         for (unsigned ch=0; ch<16; ++ch)
@@ -940,10 +932,6 @@ void RxConfig::UpgradeEepromV7V8()
         m_config.modelId = v7Config.modelId;
         m_config.serialProtocol = v7Config.serialProtocol;
         m_config.failsafeMode = v7Config.failsafeMode;
-        m_config.cfqStartHigh = v7Config.cfqStartHigh;
-        m_config.cfqStartLow = v7Config.cfqStartLow;
-        m_config.cfqStopHigh = v7Config.cfqStopHigh;
-        m_config.cfqStopLow = v7Config.cfqStopLow;
 
 #if defined(GPIO_PIN_PWM_OUTPUTS)
         for (unsigned ch=0; ch<16; ++ch)
@@ -1216,38 +1204,6 @@ void RxConfig::SetVolatileBind(bool value)
     {
         m_config.volatileBind = value;
         m_modified = true;
-    }
-}
-
-void
-RxConfig::SetCfqStartHigh(uint8_t cfqStartHigh) {
-    if (cfqStartHigh != m_config.cfqStartHigh) {
-        m_config.cfqStartHigh = cfqStartHigh;
-        m_modified |= MAIN_CHANGED;
-    }
-}
-
-void
-RxConfig::SetCfqStartLow(uint8_t cfqStartLow) {
-    if (cfqStartLow != m_config.cfqStartLow) {
-        m_config.cfqStartLow = cfqStartLow;
-        m_modified |= MAIN_CHANGED;
-    }
-}
-
-void
-RxConfig::SetCfqStopHigh(uint8_t cfqStopHigh) {
-    if (cfqStopHigh != m_config.cfqStopHigh) {
-        m_config.cfqStopHigh = cfqStopHigh;
-        m_modified |= MAIN_CHANGED;
-    }
-}
-
-void
-RxConfig::SetCfqStopLow(uint8_t cfqStopLow) {
-    if (cfqStartLow != m_config.cfqStopLow) {
-        m_config.cfqStopLow = cfqStopLow;
-        m_modified |= MAIN_CHANGED;
     }
 }
 
