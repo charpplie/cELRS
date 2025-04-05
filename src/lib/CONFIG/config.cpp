@@ -145,11 +145,11 @@ void TxConfig::Load()
         m_config.vtxPitmode = value;
     }
 
-    if (nvs_get_u8(handle, "cfqStart", &value16) == ESP_OK) {
+    if (nvs_get_u16(handle, "cfqStart", &value16) == ESP_OK) {
         m_config.cfqStart = value16;
     }
 
-    if (nvs_get_u8(handle, "cfqStop", &value16) == ESP_OK) {
+    if (nvs_get_u16(handle, "cfqStop", &value16) == ESP_OK) {
         m_config.cfqStop = value16;
     }
 
