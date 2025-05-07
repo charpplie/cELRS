@@ -719,10 +719,10 @@ static void registerLuaParameters()
   }
 
   registerLUAParameter(&luaCustomFreqFolder);
-  registerLUAParameter(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint16_t arg) {
+  registerLUAParameter16(&luaCustomFreqStart, [](struct luaPropertiesCommon *item, uint16_t arg) {
     config.SetCfqStart(arg);
   }, luaCustomFreqFolder.common.id);
-  registerLUAParameter(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint16_t arg) {
+  registerLUAParameter16(&luaCustomFreqStop, [](struct luaPropertiesCommon *item, uint16_t arg) {
     config.SetCfqStop(arg);
   }, luaCustomFreqFolder.common.id);
 

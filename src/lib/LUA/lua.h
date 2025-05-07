@@ -149,7 +149,7 @@ typedef void (*luaCallback)(struct luaPropertiesCommon *item, uint8_t arg);
 typedef void (*luaCallback16)(struct luaPropertiesCommon *item, uint16_t arg);
 
 void registerLUAParameter(void *definition, luaCallback callback = nullptr, uint8_t parent = 0);
-void registerLUAParameter(void *definition, luaCallback16 callback = nullptr, uint16_t parent = 0);
+void registerLUAParameter16(void *definition, luaCallback16 callback = nullptr, uint16_t parent = 0);
 
 uint8_t findLuaSelectionLabel(const void *luaStruct, char *outarray, uint8_t value);
 

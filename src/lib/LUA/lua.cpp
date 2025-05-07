@@ -344,7 +344,7 @@ void registerLUAParameter(void *definition, luaCallback callback, uint8_t parent
   paramCallbacks[lastLuaField] = callback;
 }
 
-void registerLUAParameter(void *definition, luaCallback16 callback, uint8_t parent)
+void registerLUAParameter16(void *definition, luaCallback16 callback, uint8_t parent)
 {
   if (definition == nullptr)
   {
